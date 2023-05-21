@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import Images from "./Images";
+import { shuffle } from "lodash";
 
 function App() {
+  const [cards, setCards] = useState(shuffle([...Images, ...Images]));
+  const [activeCards, setActiveCards] = useState([]);
+
+  const showCard = (index) => {
+    setActiveCards([index]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className="board">
+        {cards.map((card, index) => {
+          return (
+            <div
+              key={index}
+              className={
+                "parent-card " +
+                (activeCards.indexOf(index) !== -1 ? "show" : "")
+              }
+              onClick={() => showCard(index)}
+            >
+              <div className="card">
+                <div className="front-card">
+                  <img src={card} alt="" />
+                </div>
+                <div className="back-card"></div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
